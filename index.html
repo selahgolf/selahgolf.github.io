@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selah Golf — Pause. Reflect. Play.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest:    #1C3028;
+    --forest-mid:#2A4638;
+    --sage:      #6B8C6E;
+    --cream:     #F5F0E8;
+    --parchment: #EDE6D4;
+    --gold:      #B8953A;
+    --gold-lt:   #D4AF63;
+    --charcoal:  #2C2C2C;
+    --warm-gray: #8A8278;
+    --bone:      #E8E0CC;
+  }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { background:var(--cream); color:var(--charcoal); font-family:'Cormorant Garamond',Georgia,serif; overflow-x:hidden; }
+
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 4rem; background:rgba(28,48,40,0.97); border-bottom:1px solid rgba(184,149,58,0.25); }
+  .nav-logo { font-family:'Cinzel',serif; font-size:1.3rem; letter-spacing:.2em; color:var(--gold-lt); }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a { font-family:'Jost',sans-serif; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(245,240,232,0.75); text-decoration:none; transition:color .25s; }
+  .nav-links a:hover { color:var(--gold-lt); }
+  .nav-cta { font-family:'Jost',sans-serif; font-size:.75rem; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(184,149,58,0.5); padding:.55rem 1.4rem; text-decoration:none; transition:background .25s,color .25s; }
+  .nav-cta:hover { background:var(--gold); color:var(--forest); }
+
+  /* HERO */
+  .hero { min-height:100vh; background:var(--forest); display:grid; grid-template-columns:1fr 1fr; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 75% 50%,rgba(107,140,110,0.12) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(184,149,58,0.08) 0%,transparent 50%); pointer-events:none; }
+  .hero::after { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(245,240,232,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(245,240,232,0.025) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; }
+  .hero-left { display:flex; flex-direction:column; justify-content:center; padding:8rem 5rem 6rem 6rem; position:relative; z-index:2; }
+  .hero-overline { font-family:'Jost',sans-serif; font-size:.72rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:2rem; display:flex; align-items:center; gap:1rem; animation:fadeUp .7s ease both; }
+  .hero-overline::before { content:''; display:block; width:2.5rem; height:1px; background:var(--gold); }
+  .hero-s { font-family:'Playfair Display',serif; font-size:clamp(7rem,14vw,13rem); font-style:italic; font-weight:400; color:var(--gold-lt); line-height:1; margin-bottom:.2rem; animation:fadeUp .7s .1s ease both; }
+  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(1.4rem,2.5vw,2.2rem); font-weight:400; line-height:1.2; color:var(--cream); margin-bottom:1.8rem; letter-spacing:.06em; animation:fadeUp .7s .2s ease both; }
+  .hero-verse { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.2rem; font-weight:300; color:rgba(245,240,232,0.55); margin:0 0 2.8rem; padding-left:1.2rem; border-left:2px solid rgba(184,149,58,0.4); line-height:1.7; animation:fadeUp .7s .35s ease both; }
+  .hero-verse cite { display:block; font-style:normal; font-family:'Jost',sans-serif; font-size:.7rem; letter-spacing:.2em; color:var(--gold); margin-top:.5rem; text-transform:uppercase; }
+  .hero-btns { display:flex; gap:1rem; animation:fadeUp .7s .5s ease both; }
+  .btn-primary { display:inline-block; background:var(--gold); color:var(--forest); font-family:'Jost',sans-serif; font-size:.78rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; padding:1rem 2.2rem; text-decoration:none; transition:background .25s,transform .2s; }
+  .btn-primary:hover { background:var(--gold-lt); transform:translateY(-2px); }
+  .btn-ghost { display:inline-block; border:1px solid rgba(245,240,232,0.3); color:rgba(245,240,232,0.8); font-family:'Jost',sans-serif; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; padding:1rem 2.2rem; text-decoration:none; transition:border-color .25s,color .25s; }
+  .btn-ghost:hover { border-color:var(--gold-lt); color:var(--gold-lt); }
+  .hero-right { position:relative; z-index:2; display:flex; align-items:center; justify-content:center; padding:6rem 4rem 6rem 2rem; animation:fadeUp .9s .4s ease both; }
+  .meaning-card { width:300px; background:rgba(42,70,56,0.7); border:1px solid rgba(184,149,58,0.25); padding:2.5rem 2rem; position:relative; }
+  .meaning-card::before { content:''; position:absolute; inset:10px; border:1px solid rgba(184,149,58,0.08); pointer-events:none; }
+  .meaning-top { font-family:'Jost',sans-serif; font-size:.62rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+  .meaning-word { font-family:'Playfair Display',serif; font-size:4.5rem; font-style:italic; color:var(--gold-lt); line-height:1; margin-bottom:.4rem; }
+  .meaning-heb { font-family:'Jost',sans-serif; font-size:.7rem; letter-spacing:.2em; color:rgba(245,240,232,0.35); margin-bottom:1.5rem; }
+  .meaning-def { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.05rem; color:rgba(245,240,232,0.7); line-height:1.7; margin-bottom:1.2rem; }
+  .meaning-ref { font-family:'Jost',sans-serif; font-size:.65rem; letter-spacing:.18em; color:var(--gold); text-transform:uppercase; }
+
+  /* SCRIPTURE BAND */
+  .scripture-band { background:var(--forest-mid); padding:2.2rem; text-align:center; border-top:1px solid rgba(184,149,58,0.2); border-bottom:1px solid rgba(184,149,58,0.2); }
+  .scripture-band p { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.3rem; font-weight:300; color:rgba(245,240,232,0.75); letter-spacing:.04em; }
+  .scripture-band p span { color:var(--gold-lt); }
+
+  /* STORY */
+  .story { display:grid; grid-template-columns:1fr 1fr; background:var(--parchment); }
+  .story-text { padding:7rem 5rem; display:flex; flex-direction:column; justify-content:center; }
+  .section-label { font-family:'Jost',sans-serif; font-size:.7rem; letter-spacing:.35em; text-transform:uppercase; color:var(--sage); margin-bottom:1.5rem; display:flex; align-items:center; gap:1rem; }
+  .section-label::before { content:''; display:block; width:2rem; height:1px; background:var(--sage); }
+  .story-title { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,3.5vw,3.2rem); font-weight:600; line-height:1.15; color:var(--forest); margin-bottom:1.8rem; }
+  .story-title em { font-style:italic; color:var(--gold); }
+  .story-body { font-family:'Cormorant Garamond',serif; font-size:1.2rem; line-height:1.85; color:#4A4540; margin-bottom:2.5rem; }
+  .story-right { background:var(--forest); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; min-height:560px; }
+  .story-right::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(107,140,110,0.2) 0%,transparent 70%); }
+  .story-emblem { position:relative; z-index:1; text-align:center; }
+  .emblem-s { font-family:'Playfair Display',serif; font-size:9rem; font-style:italic; color:var(--gold-lt); line-height:1; opacity:.9; }
+  .emblem-name { font-family:'Cinzel',serif; font-size:1rem; letter-spacing:.3em; color:rgba(245,240,232,0.5); margin-top:.5rem; }
+  .emblem-tagline { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.95rem; font-weight:300; color:rgba(245,240,232,0.35); margin-top:.3rem; letter-spacing:.06em; }
+
+  /* ══════════════════════════════════
+     COLLECTION — PRODUCT SLIDERS
+  ══════════════════════════════════ */
+  .collection { padding:7rem 6rem; background:var(--cream); }
+  .collection-header { text-align:center; margin-bottom:5rem; }
+  .collection-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.8rem); font-weight:600; color:var(--forest); }
+  .collection-title em { font-style:italic; color:var(--gold); }
+  .collection-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.1rem; color:var(--warm-gray); margin-top:.7rem; }
+
+  /* Product showcase — full width each */
+  .product-showcase { margin-bottom:6rem; }
+  .product-showcase:last-child { margin-bottom:0; }
+
+  .showcase-inner {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    background:var(--forest);
+    overflow:hidden;
+  }
+
+  /* SLIDER */
+  .slider-wrap { position:relative; overflow:hidden; background:#111C16; aspect-ratio:4/3; }
+  .slider-track { display:flex; height:100%; transition:transform .5s cubic-bezier(.4,0,.2,1); }
+  .slide { min-width:100%; height:100%; position:relative; flex-shrink:0; }
+
+  /* Placeholder slides — replaced with real images */
+  .slide-img {
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  /* Placeholder when no image */
+  .slide-placeholder {
+    width:100%; height:100%;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    background:var(--forest);
+    gap:1rem;
+  }
+  .slide-placeholder .ph-s { font-family:'Playfair Display',serif; font-size:6rem; font-style:italic; color:rgba(212,175,99,0.15); }
+  .slide-placeholder .ph-label { font-family:'Jost',sans-serif; font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; color:rgba(212,175,99,0.4); }
+
+  /* Slider controls */
+  .slider-controls {
+    position:absolute; bottom:1.2rem; left:0; right:0;
+    display:flex; align-items:center; justify-content:center; gap:.8rem;
+    z-index:10;
+  }
+  .slider-btn {
+    width:32px; height:32px;
+    background:rgba(28,48,40,0.85);
+    border:1px solid rgba(184,149,58,0.4);
+    color:var(--gold-lt);
+    font-size:1rem; line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s,border-color .2s;
+    flex-shrink:0;
+  }
+  .slider-btn:hover { background:var(--forest); border-color:var(--gold); }
+  .slider-dots { display:flex; gap:.5rem; align-items:center; }
+  .dot {
+    width:6px; height:6px; border-radius:50%;
+    background:rgba(212,175,99,0.3);
+    cursor:pointer; transition:background .2s,transform .2s;
+  }
+  .dot.active { background:var(--gold-lt); transform:scale(1.3); }
+
+  /* Slide caption overlay */
+  .slide-caption {
+    position:absolute; bottom:0; left:0; right:0;
+    padding:.7rem 1.2rem;
+    background:linear-gradient(0deg,rgba(10,20,14,0.9) 0%,transparent 100%);
+    font-family:'Jost',sans-serif; font-size:.62rem; letter-spacing:.2em;
+    text-transform:uppercase; color:rgba(212,175,99,0.8);
+    pointer-events:none;
+  }
+
+  /* Product info panel */
+  .showcase-info {
+    padding:3.5rem;
+    display:flex; flex-direction:column; justify-content:center;
+    background:var(--forest);
+  }
+  .showcase-tag { font-family:'Jost',sans-serif; font-size:.65rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+  .showcase-name { font-family:'Playfair Display',serif; font-style:italic; font-size:2.4rem; color:var(--cream); margin-bottom:1.5rem; line-height:1.1; }
+  .showcase-desc { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:300; line-height:1.75; color:rgba(245,240,232,0.65); margin-bottom:2rem; }
+  .feature-list { list-style:none; margin-bottom:2.5rem; }
+  .feature-list li { font-family:'Jost',sans-serif; font-size:.72rem; letter-spacing:.08em; color:rgba(245,240,232,0.6); padding:.5rem 0; border-bottom:1px solid rgba(184,149,58,0.1); display:flex; align-items:center; gap:.8rem; }
+  .feature-list li::before { content:''; display:block; width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+  .hidden-verse-badge {
+    background:rgba(184,149,58,0.1);
+    border:1px solid rgba(184,149,58,0.3);
+    border-left:3px solid var(--gold);
+    padding:.9rem 1.2rem;
+    margin-bottom:2rem;
+  }
+  .hvb-label { font-family:'Jost',sans-serif; font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); margin-bottom:.4rem; }
+  .hvb-verse { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.95rem; color:rgba(245,240,232,0.75); }
+
+  /* Coming Soon card */
+  .coming-soon-card {
+    background:var(--parchment);
+    border:2px dashed rgba(184,149,58,0.3);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:4rem 3rem;
+    min-height:400px;
+    position:relative;
+  }
+  .cs-s { font-family:'Playfair Display',serif; font-size:5rem; font-style:italic; color:rgba(28,48,40,0.1); line-height:1; margin-bottom:1.5rem; }
+  .cs-badge { font-family:'Jost',sans-serif; font-size:.65rem; letter-spacing:.35em; text-transform:uppercase; color:var(--gold); background:var(--forest); padding:.4rem 1rem; margin-bottom:1.5rem; display:inline-block; }
+  .cs-name { font-family:'Playfair Display',serif; font-style:italic; font-size:2rem; color:var(--forest); margin-bottom:1rem; }
+  .cs-desc { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; line-height:1.7; color:var(--warm-gray); max-width:280px; }
+
+  /* VALUES */
+  .values { background:var(--forest); padding:6rem; display:grid; grid-template-columns:repeat(3,1fr); gap:4rem; }
+  .value-item { text-align:center; }
+  .value-icon { width:60px; height:60px; border:1px solid rgba(184,149,58,0.35); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.5rem; }
+  .v-s { font-family:'Playfair Display',serif; font-size:1.8rem; font-style:italic; color:var(--gold-lt); line-height:1; }
+  .value-title { font-family:'Cinzel',serif; font-size:.85rem; letter-spacing:.2em; color:var(--gold-lt); margin-bottom:.8rem; }
+  .value-desc { font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:300; line-height:1.75; color:rgba(245,240,232,0.55); }
+
+  /* NEWSLETTER */
+  .newsletter { background:var(--parchment); padding:6rem; text-align:center; position:relative; overflow:hidden; }
+  .newsletter::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:400px; height:400px; border:1px solid rgba(184,149,58,0.12); border-radius:50%; pointer-events:none; }
+  .newsletter-label { font-family:'Jost',sans-serif; font-size:.7rem; letter-spacing:.35em; text-transform:uppercase; color:var(--sage); margin-bottom:1.2rem; }
+  .newsletter-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:600; color:var(--forest); margin-bottom:.8rem; }
+  .newsletter-title em { font-style:italic; color:var(--gold); }
+  .newsletter-sub { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.1rem; color:var(--warm-gray); margin-bottom:2.5rem; }
+  .email-row { display:flex; justify-content:center; max-width:440px; margin:0 auto; }
+  .email-row input { flex:1; padding:1rem 1.4rem; border:1px solid rgba(28,48,40,0.25); border-right:none; font-family:'Cormorant Garamond',serif; font-size:1rem; background:#fff; color:var(--charcoal); outline:none; }
+  .email-row input::placeholder { color:var(--warm-gray); }
+  .email-row button { background:var(--forest); color:var(--gold-lt); font-family:'Jost',sans-serif; font-size:.75rem; font-weight:500; letter-spacing:.18em; text-transform:uppercase; padding:1rem 1.8rem; border:none; cursor:pointer; transition:background .25s; }
+  .email-row button:hover { background:var(--forest-mid); }
+
+  /* FOOTER */
+  footer { background:#111C16; padding:3.5rem 6rem; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(184,149,58,0.15); }
+  .footer-logo { font-family:'Cinzel',serif; font-size:1.1rem; letter-spacing:.2em; color:var(--gold-lt); }
+  .footer-verse { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:.95rem; color:rgba(245,240,232,0.35); }
+  .footer-links { display:flex; gap:2rem; list-style:none; }
+  .footer-links a { font-family:'Jost',sans-serif; font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(245,240,232,0.4); text-decoration:none; transition:color .2s; }
+  .footer-links a:hover { color:var(--gold-lt); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  @media(max-width:900px) {
+    nav { padding:1rem 2rem; }
+    .nav-links { display:none; }
+    .hero { grid-template-columns:1fr; }
+    .hero-right { display:none; }
+    .hero-left { padding:8rem 2.5rem 5rem; }
+    .story { grid-template-columns:1fr; }
+    .story-right { min-height:300px; }
+    .collection { padding:4rem 1.5rem; }
+    .showcase-inner { grid-template-columns:1fr; }
+    .showcase-info { padding:2rem; }
+    .values { grid-template-columns:1fr; padding:4rem 2rem; gap:2.5rem; }
+    .newsletter { padding:4rem 2rem; }
+    footer { flex-direction:column; gap:1.5rem; text-align:center; padding:2.5rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Selah</div>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#collection">Collection</a></li>
+    <li><a href="#values">Values</a></li>
+    <li><a href="#newsletter">Join Waitlist</a></li>
+  </ul>
+  <a href="#newsletter" class="nav-cta">Join the Waitlist</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-overline">Christian Golf Apparel</div>
+    <div class="hero-s">S</div>
+    <h1 class="hero-title">Pause. Reflect. Play.</h1>
+    <blockquote class="hero-verse">
+      "Whatever you do, do it heartily,<br>as to the Lord and not to men."
+      <cite>Colossians 3:23</cite>
+    </blockquote>
+    <div class="hero-btns">
+      <a href="#collection" class="btn-primary">View Collection</a>
+      <a href="#story" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="meaning-card">
+      <div class="meaning-top">Hebrew · סֶלָה</div>
+      <div class="meaning-word">Selah</div>
+      <div class="meaning-heb">Found 74 times in the Psalms</div>
+      <div class="meaning-def">"Pause and reflect. Be still and let what was just said sink in."</div>
+      <div class="meaning-ref">Psalm 46:10 · Col. 3:23</div>
+    </div>
+  </div>
+</section>
+
+<div class="scripture-band">
+  <p>"Be still and know that I am God." — <span>Psalm 46:10</span></p>
+</div>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="story-text">
+    <div class="section-label">Brand Story</div>
+    <h2 class="story-title">Where the <em>pause</em><br>becomes purpose.</h2>
+    <p class="story-body">Golf gives you four hours and eighteen holes to think. That space between shots — the walk down the fairway, the stillness before a putt — is rare in modern life. Selah was born in that space.</p>
+    <p class="story-body">It's a Hebrew word from the Psalms. It means pause and reflect. We thought that was fitting for a golf brand. And we thought it was fitting for a life of faith. The two belong together.</p>
+    <a href="#collection" class="btn-primary" style="align-self:flex-start;">Explore the Line</a>
+  </div>
+  <div class="story-right">
+    <div class="story-emblem">
+      <div class="emblem-s">S</div>
+      <div class="emblem-name">Selah Golf</div>
+      <div class="emblem-tagline">Play with Purpose.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION -->
+<section class="collection" id="collection">
+  <div class="collection-header">
+    <div class="section-label" style="justify-content:center;">The Collection</div>
+    <h2 class="collection-title">Crafted with <em>Intention</em></h2>
+    <p class="collection-sub">Performance apparel that carries the Word.</p>
+  </div>
+
+  <!-- ── POLO ── -->
+  <div class="product-showcase">
+    <div class="showcase-inner">
+
+      <!-- SLIDER -->
+      <div class="slider-wrap" id="polo-slider">
+        <div class="slider-track" id="polo-track">
+
+          <!-- Slide 1: Front view -->
+          <div class="slide">
+            <img src="polo-front.jpg" alt="The Selah Polo — front view" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Front View — polo-front.jpg</div>
+            </div>
+            <div class="slide-caption">Front View</div>
+          </div>
+
+          <!-- Slide 2: Back view -->
+          <div class="slide">
+            <img src="polo-back.jpg" alt="The Selah Polo — back view" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Back View — polo-back.jpg</div>
+            </div>
+            <div class="slide-caption">Back View</div>
+          </div>
+
+          <!-- Slide 3: Hidden collar verse -->
+          <div class="slide">
+            <img src="polo-collar.jpg" alt="Hidden collar verse — as unto the Lord Col. 3:23" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Collar Detail — polo-collar.jpg</div>
+            </div>
+            <div class="slide-caption">Hidden Collar Verse — Col. 3:23</div>
+          </div>
+
+          <!-- Slide 4: Sleeve / detail -->
+          <div class="slide">
+            <img src="polo-detail.jpg" alt="Polo detail — sleeve stripe and monogram" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Detail Shot — polo-detail.jpg</div>
+            </div>
+            <div class="slide-caption">Sleeve & Monogram Detail</div>
+          </div>
+
+        </div>
+
+        <!-- Controls -->
+        <div class="slider-controls">
+          <button class="slider-btn" onclick="slide('polo',-1)" aria-label="Previous">&#8592;</button>
+          <div class="slider-dots" id="polo-dots">
+            <div class="dot active" onclick="goTo('polo',0)"></div>
+            <div class="dot" onclick="goTo('polo',1)"></div>
+            <div class="dot" onclick="goTo('polo',2)"></div>
+            <div class="dot" onclick="goTo('polo',3)"></div>
+          </div>
+          <button class="slider-btn" onclick="slide('polo',1)" aria-label="Next">&#8594;</button>
+        </div>
+      </div>
+
+      <!-- INFO PANEL -->
+      <div class="showcase-info">
+        <div class="showcase-tag">Signature Polo · Style SG-001</div>
+        <div class="showcase-name">The Selah Polo</div>
+        <p class="showcase-desc">Country club quality meets quiet conviction. Built for the golfer who plays with purpose and wears their faith without broadcasting it.</p>
+        <div class="hidden-verse-badge">
+          <div class="hvb-label">Hidden Signature Detail</div>
+          <div class="hvb-verse">"as unto the Lord — Col. 3:23 —"<br>Embroidered in gold inside the collar.</div>
+        </div>
+        <ul class="feature-list">
+          <li>Deep forest green body — Augusta colorway</li>
+          <li>Parchment bone contrast collar & placket trim</li>
+          <li>Horn-style antique gold buttons</li>
+          <li>S monogram — gold embroidery, left chest</li>
+          <li>Cream accent stripe at sleeve hems</li>
+          <li>Tour piqué · 4-way stretch · UPF 30+</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── HAT ── -->
+  <div class="product-showcase">
+    <div class="showcase-inner" style="direction:rtl;">
+      <div style="direction:ltr;">
+
+        <!-- INFO PANEL — left on hat -->
+        <div class="showcase-info" style="direction:ltr;">
+          <div class="showcase-tag">Signature Hat · Style SG-H01</div>
+          <div class="showcase-name">The Selah Hat</div>
+          <p class="showcase-desc">The same quiet conviction — now on your head. Available in Augusta Green and Bone White. The hidden verse is there every round, whether anyone else knows it or not.</p>
+          <div class="hidden-verse-badge">
+            <div class="hvb-label">Hidden Underbrim Detail</div>
+            <div class="hvb-verse">"as unto the Lord — Col. 3:23 —"<br>Embroidered center back, under the brim.</div>
+          </div>
+          <ul class="feature-list">
+            <li>S monogram — gold embroidery, left front panel</li>
+            <li>Augusta Green & Bone White colorways</li>
+            <li>Hidden verse — center back underbrim</li>
+            <li>Same gold thread as The Selah Polo</li>
+            <li>Structured front panel · adjustable back</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- SLIDER -->
+      <div class="slider-wrap" id="hat-slider" style="direction:ltr;">
+        <div class="slider-track" id="hat-track">
+
+          <!-- Slide 1: Front green -->
+          <div class="slide">
+            <img src="hat-front-green.jpg" alt="Selah Hat — Augusta Green front view" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Green Hat Front — hat-front-green.jpg</div>
+            </div>
+            <div class="slide-caption">Augusta Green — Front</div>
+          </div>
+
+          <!-- Slide 2: Front white -->
+          <div class="slide">
+            <img src="hat-front-white.jpg" alt="Selah Hat — Bone White front view" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">White Hat Front — hat-front-white.jpg</div>
+            </div>
+            <div class="slide-caption">Bone White — Front</div>
+          </div>
+
+          <!-- Slide 3: Underbrim verse -->
+          <div class="slide">
+            <img src="hat-underbrim.jpg" alt="Hat underbrim hidden verse — as unto the Lord Col. 3:23" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Underbrim Verse — hat-underbrim.jpg</div>
+            </div>
+            <div class="slide-caption">Hidden Underbrim — Col. 3:23</div>
+          </div>
+
+          <!-- Slide 4: Side / detail -->
+          <div class="slide">
+            <img src="hat-detail.jpg" alt="Hat S monogram detail" class="slide-img"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="slide-placeholder" style="display:none">
+              <div class="ph-s">S</div>
+              <div class="ph-label">Monogram Detail — hat-detail.jpg</div>
+            </div>
+            <div class="slide-caption">S Monogram Detail</div>
+          </div>
+
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn" onclick="slide('hat',-1)" aria-label="Previous">&#8592;</button>
+          <div class="slider-dots" id="hat-dots">
+            <div class="dot active" onclick="goTo('hat',0)"></div>
+            <div class="dot" onclick="goTo('hat',1)"></div>
+            <div class="dot" onclick="goTo('hat',2)"></div>
+            <div class="dot" onclick="goTo('hat',3)"></div>
+          </div>
+          <button class="slider-btn" onclick="slide('hat',1)" aria-label="Next">&#8594;</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── QUARTER ZIP COMING SOON ── -->
+  <div class="product-showcase">
+    <div class="showcase-inner">
+      <div class="coming-soon-card">
+        <div class="cs-s">S</div>
+        <div class="cs-badge">Coming Soon</div>
+        <div class="cs-name">The Still Layer</div>
+        <p class="cs-desc">A performance quarter-zip with the same hidden scripture detail at the cuff. Psalm 46:10 — "Be still." Arriving Season 2.</p>
+      </div>
+      <div class="showcase-info">
+        <div class="showcase-tag">Performance Quarter-Zip · Season 2</div>
+        <div class="showcase-name">The Still Layer</div>
+        <p class="showcase-desc">Built for early mornings and late rounds. The same tour-grade performance fabric as The Selah Polo, now in a layer you'll reach for every time the temperature drops.</p>
+        <div class="hidden-verse-badge">
+          <div class="hvb-label">Hidden Signature Detail</div>
+          <div class="hvb-verse">"Be still, and know that I am God."<br>Embroidered in gold at the inner cuff — Ps. 46:10</div>
+        </div>
+        <ul class="feature-list">
+          <li>Quarter-zip performance fleece</li>
+          <li>Forest green — matching Selah Polo colorway</li>
+          <li>S monogram — left chest</li>
+          <li>Hidden verse at inner cuff — Ps. 46:10</li>
+          <li>Join the waitlist to be notified at launch</li>
+        </ul>
+        <a href="#newsletter" class="btn-primary" style="align-self:flex-start;margin-top:.5rem;">Notify Me</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- VALUES -->
+<section class="values" id="values">
+  <div class="value-item">
+    <div class="value-icon"><div class="v-s">S</div></div>
+    <div class="value-title">Pause & Reflect</div>
+    <p class="value-desc">Every product carries a hidden scripture — inside the collar, under the brim. A quiet reminder to be still.</p>
+  </div>
+  <div class="value-item">
+    <div class="value-icon"><div class="v-s">S</div></div>
+    <div class="value-title">Country Club Quality</div>
+    <p class="value-desc">Tour-grade piqué, four-way stretch, UPF protection. Premium enough for any pro shop.</p>
+  </div>
+  <div class="value-item">
+    <div class="value-icon"><div class="v-s">S</div></div>
+    <div class="value-title">Missions Giving</div>
+    <p class="value-desc">10% of every purchase goes to global missions. Named. Specific. On every hang tag.</p>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-label">Early Access</div>
+  <h2 class="newsletter-title">Be First on the <em>Fairway</em></h2>
+  <p class="newsletter-sub">Join the founding members list. Launch drops, exclusive offers, and devotional content.</p>
+  <div class="email-row">
+    <input type="email" placeholder="Your email address" id="email-input">
+    <button onclick="submitEmail()">Join Waitlist</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Selah</div>
+  <div class="footer-verse">"Pause. Reflect. Play." — Col. 3:23</div>
+  <ul class="footer-links">
+    <li><a href="https://instagram.com/playselah" target="_blank">Instagram</a></li>
+    <li><a href="mailto:info@selahgolf.com">Contact</a></li>
+    <li><a href="mailto:info@selahgolf.com">Wholesale</a></li>
+  </ul>
+</footer>
+
+<script>
+  // ── SLIDER LOGIC ──
+  const state = { polo: 0, hat: 0 };
+  const counts = { polo: 4, hat: 4 };
+
+  function goTo(id, index) {
+    state[id] = index;
+    const track = document.getElementById(id + '-track');
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    const dots = document.querySelectorAll('#' + id + '-dots .dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  }
+
+  function slide(id, dir) {
+    let next = state[id] + dir;
+    if (next < 0) next = counts[id] - 1;
+    if (next >= counts[id]) next = 0;
+    goTo(id, next);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  slide('polo', -1);
+    if (e.key === 'ArrowRight') slide('polo',  1);
+  });
+
+  // Touch swipe support
+  function addSwipe(id) {
+    const el = document.getElementById(id + '-slider');
+    let startX = 0;
+    el.addEventListener('touchstart', e => startX = e.touches[0].clientX, { passive: true });
+    el.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) slide(id, diff > 0 ? 1 : -1);
+    }, { passive: true });
+  }
+  addSwipe('polo');
+  addSwipe('hat');
+
+  // ── EMAIL SUBMIT ──
+  function submitEmail() {
+    const input = document.getElementById('email-input');
+    if (input.value && input.value.includes('@')) {
+      input.value = '';
+      input.placeholder = 'You\'re on the list. Welcome to Selah.';
+      input.style.color = '#B8953A';
+    }
+  }
+</script>
+
+</body>
+</html>
